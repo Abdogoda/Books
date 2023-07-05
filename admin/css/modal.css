@@ -1,0 +1,143 @@
+/* START MODAL STYLING */
+.modal {
+ display: none;
+ position: fixed;
+ left: 50%;
+ top: 20px;
+ transform: translateX(-50%);
+ width: 600px;
+ max-width: 95%;
+ background-color: #f7f7f7;
+ border-radius: 15px;
+ box-shadow: 0 0 0 200vw rgba(0, 0, 0, 0.4);
+ z-index: 100000;
+ border: 1px solid #777;
+ animation: fadeUp 0.7s backwards ease-in-out;
+ max-height: calc(100vh - 40px);
+ overflow-y: scroll;
+}
+.modal::-webkit-scrollbar {
+ width: 0;
+}
+.modal-content {
+ position: relative;
+ padding: 15px 17px;
+}
+.modal-content h2 {
+ font-size: 25px;
+ margin: 10px 0;
+ text-align: center;
+ color: #27ae60;
+}
+.modal-content h3 {
+ font-size: 16px;
+ margin: 10px 0;
+ color: #333;
+}
+.modal-content img {
+ width: 90px;
+ margin-bottom: 7px;
+}
+@keyframes fadeUp {
+ 0% {
+  left: 10%;
+ }
+ 60% {
+  left: 50%;
+ }
+ 80% {
+  left: 40%;
+ }
+ 100% {
+  left: 50%;
+ }
+}
+.modal form .flex-input-group {
+ display: flex;
+ align-items: center;
+ gap: 13px;
+}
+.modal form .flex-input-group .input-group {
+ width: 50%;
+}
+.modal form .input-group {
+ margin-bottom: 13px;
+ display: flex;
+ flex-direction: column;
+}
+@media (max-width: 767px) {
+ .modal form .flex-input-group {
+  flex-direction: column;
+  gap: 0;
+ }
+ .modal form .flex-input-group .input-group {
+  width: 100%;
+ }
+ .modal form .input-group {
+  margin-bottom: 5px;
+ }
+}
+.modal form .input-group label {
+ color: #222;
+ font-size: 17px;
+ margin-bottom: 7px;
+}
+.modal form .input-group input,
+.modal form .input-group select,
+.modal form .input-group textarea {
+ background-color: #fff;
+ width: 100%;
+ max-width: 100%;
+ padding: 10px;
+ font-size: 16px;
+ border: 1px solid #444;
+ color: #222;
+ border-radius: 4px;
+ margin-bottom: 10px;
+ transition: 0.2s ease-in-out;
+}
+.modal form .input-group textarea {
+ resize: vertical;
+}
+.modal form .input-group input:focus,
+.modal form .input-group textarea:focus,
+.modal form .input-group select:focus {
+ border-color: #27ae60;
+}
+.modal form .input-group input.error,
+.modal form .input-group textarea.error,
+.modal form .input-group select.error {
+ border-color: #f44336;
+}
+.modal form .input-group input[type="file"] {
+ color: #444;
+ font-weight: normal;
+}
+.modal form ::-webkit-file-upload-button {
+ background-color: transparent;
+ border: transparent;
+ color: #444;
+}
+.modal form .btns {
+ display: flex;
+ align-items: center;
+ gap: 2px;
+}
+.modal form .btns input,
+.modal form .btns button {
+ width: 50%;
+ padding: 10px;
+ font-size: 17px;
+ border: 1px solid #777;
+ color: #fff;
+ background-color: #27ae60;
+ transition: 0.1s linear;
+}
+.modal form .btns .close-modal {
+ background-color: #f44336;
+}
+.modal form .btns input:hover,
+.modal form .btns button:hover {
+ background-color: #342e37;
+}
+/* END FORM STYLING */
