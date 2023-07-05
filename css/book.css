@@ -1,0 +1,75 @@
+.book_box {
+ width: 100%;
+ display: flex;
+ align-items: center;
+ gap: 15px;
+}
+.book_box .book_image {
+ flex: 1;
+ max-width: 100%;
+}
+.book_box .book_image img {
+ width: 100%;
+}
+.book_info {
+ flex: 2;
+}
+@media (max-width: 600px) {
+ .book_box {
+  flex-direction: column;
+ }
+ .book_info {
+  flex: 1;
+ }
+}
+.book_info h2 {
+ font-size: 28px;
+ color: var(--black);
+}
+.book_info p,
+.book_info span {
+ margin: 10px 0;
+ font-weight: light;
+ letter-spacing: 0.5px;
+ font-size: 20px;
+ color: #555;
+}
+.book_info span {
+ font-size: 18px;
+ line-height: 1.7;
+}
+.book_info .btns {
+ display: flex;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 10px;
+}
+.book-quantity {
+ width: fit-content;
+}
+.book-quantity div {
+ display: flex;
+ align-items: center;
+ gap: 1rem;
+}
+.book-quantity .btn {
+ margin-top: 0;
+}
+.book-quantity .btn-danger {
+ margin: 1rem 0;
+}
+.book-quantity p {
+ border-radius: 0.5rem;
+ padding: 1rem 2rem;
+ text-align: center;
+ font-weight: bold;
+ font-size: 1.5rem;
+ color: #222;
+ background-color: #eee;
+}
+.fa-heart {
+ color: #333;
+}
+.fa-heart.book-liked {
+ color: #27ae60 !important;
+}

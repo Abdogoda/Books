@@ -1,0 +1,138 @@
+:root {
+ --dark: #34495e;
+ --light: #f1f1f1;
+ --success: #0abf30;
+ --error: #e24d4c;
+ --warning: #e9bd0c;
+ --info: #3498d8;
+}
+.notifications {
+ position: fixed;
+ top: 85px;
+ right: 15px;
+ width: 300px;
+ z-index: 1000000000000000000000000000000000 !important;
+ max-width: calc(100% - 3rem) !important;
+}
+.notifications :where(.toast, .column) {
+ display: flex;
+ align-items: center;
+}
+.notifications .toast {
+ width: 100%;
+ position: relative;
+ overflow: hidden;
+ border-radius: 4px;
+ padding: 10px 15px;
+ margin-bottom: 10px;
+ background-color: var(--light);
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+ justify-content: space-between;
+ animation: show_toast 0.3s ease forwards;
+}
+@keyframes show_toast {
+ 0% {
+  transform: translateX(120%);
+ }
+ 40% {
+  transform: translateX(-5%);
+ }
+ 80% {
+  transform: translateX(0%);
+ }
+ 100% {
+  transform: translateX(-10px);
+ }
+}
+.notifications .toast.hide {
+ animation: hide_toast 0.3s ease forwards;
+}
+@keyframes hide_toast {
+ 0% {
+  transform: translateX(-10px);
+ }
+ 40% {
+  transform: translateX(0%);
+ }
+ 80% {
+  transform: translateX(-5%);
+ }
+ 100% {
+  transform: translateX(120%);
+ }
+}
+.notifications .toast::before {
+ position: absolute;
+ content: "";
+ height: 3px;
+ width: 100%;
+ left: 0;
+ bottom: 0;
+ animation: progress 5s linear forwards;
+}
+@keyframes progress {
+ 100% {
+  width: 0%;
+ }
+}
+.notifications .toast.success::before {
+ background-color: var(--success);
+}
+.notifications .toast.error::before {
+ background-color: var(--error);
+}
+.notifications .toast.warning::before {
+ background-color: var(--warning);
+}
+.notifications .toast.info::before {
+ background-color: var(--info);
+}
+.notifications .toast.success .column i {
+ color: var(--success) !important;
+}
+.notifications .toast.error .column i {
+ color: var(--error) !important;
+}
+.notifications .toast.warning .column i {
+ color: var(--warning) !important;
+}
+.notifications .toast.info .column i {
+ color: var(--info) !important;
+}
+.notifications .toast .column i {
+ font-size: 17px;
+}
+.notifications .toast .column .text {
+ font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+ margin-left: 12px;
+}
+.notifications .toast .column .text span {
+ font-size: 15px;
+ font-weight: bold;
+ color: #555555;
+ margin-bottom: 0.7rem;
+ text-transform: capitalize;
+}
+.notifications .toast .column .text p {
+ font-size: 13px;
+ color: #777777;
+}
+.notifications .toast .fa-xmark {
+ color: #aeb0d7;
+ cursor: pointer;
+}
+.notifications .toast .fa-xmark:hover {
+ color: var(--dark);
+}
+@media (max-width: 500px) {
+ .notifications {
+  font-size: 80%;
+  right: 0.5rem;
+  max-width: calc(100% - 2rem) !important;
+ }
+}
+
+.error {
+ border-color: red !important;
+}

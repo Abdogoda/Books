@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Redressed&family=Ubuntu:wght@400;700&display=swap");
+
+:root {
+ --bg-clr: #27ae60;
+ --white: #fff;
+ --invoice-bg: #eee;
+ --primary-clr: #2f2929;
+ --secondary-clr: #219150;
+}
+
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: "Ubuntu", sans-serif;
+}
+
+body {
+ background: var(--bg-clr);
+ font-size: 12px;
+ line-height: 20px;
+ color: var(--primary-clr);
+ padding: 0 20px;
+}
+
+.main_title {
+ font-weight: 700;
+ font-size: 16px;
+ text-transform: uppercase;
+ color: var(--secondary-clr);
+ margin-bottom: 10px;
+}
+
+.p_title {
+ font-weight: 700;
+ font-size: 14px;
+}
+
+.p_title > span {
+ font-weight: 400;
+ font-size: 12px;
+}
+
+.text_right {
+ text-align: right;
+}
+
+.text_center {
+ text-align: center;
+}
+
+.i_row {
+ display: flex;
+}
+
+.invoice {
+ width: 800px;
+ max-width: 100%;
+ height: auto;
+ background: var(--white);
+ margin: 20px auto;
+}
+
+.invoice > div {
+ width: 100%;
+ padding: 40px;
+}
+
+.invoice .invoice_info .i_row {
+ justify-content: space-between;
+}
+
+.invoice .invoice_info,
+.invoice .invoice_terms {
+ background: var(--invoice-bg);
+}
+
+.invoice .invoice_info > div:not(:last-child) {
+ margin-bottom: 40px;
+}
+
+.invoice .invoice_info h1 {
+ font-size: 38px;
+ line-height: 44px;
+ color: var(--secondary-clr);
+}
+
+.invoice .w_15 {
+ width: 15%;
+}
+
+.invoice .w_50 {
+ width: 50%;
+}
+
+.invoice .w_55 {
+ width: 55%;
+}
+
+.invoice .i_table .i_row {
+ padding: 12px 10px;
+ border-bottom: 1px solid var(--invoice-bg);
+}
+
+.invoice .i_table .i_row p {
+ margin: 0;
+ font-weight: 700;
+}
+
+.invoice .i_table .i_table_head .i_row,
+.invoice .i_table .i_table_foot .grand_total_wrap {
+ background: var(--invoice-bg);
+ border: 0;
+}
+
+.invoice .invoice_right .terms {
+ margin: 0;
+}
