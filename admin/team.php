@@ -6,10 +6,17 @@ if(isset($_COOKIE['admin_id'])){
 }else{
   header('location: ../login.php');
 }
+
+
 // admin information and permissions
 $select_admin = $conn->prepare("SELECT * FROM users u JOIN employees e ON u.id = e.employee_id WHERE u.id = ?");
 $select_admin->execute([$admin_id]);
 $fetch_admin = $select_admin->fetch(PDO::FETCH_OBJ);
+$select_employee_permissions = $conn->prepare("SELECT * FROM job_permisions WHERE job_id = ?");
+$select_employee_permissions->execute([$fetch_admin->job_id]);
+$employee_permissions = $select_employee_permissions->fetchAll(PDO::FETCH_OBJ);
+if (!in_array('3', array_column($employee_permissions, 'permission_id'))) header("location: index.php");
+
 
 
 // Add New Member
@@ -83,10 +90,18 @@ if (isset($_POST['add_member'])) {
 
   <!-- START CONTENT -->
   <div class="content w-full">
-   <div class="between-flex f-wrap">
-    <h1 class="p-relative">Team</h1>
+   <h1 class="p-relative">Team</h1>
+   <div class="m-20 mt-0 mb-20 p-20 rad-10 bg-white between-flex gap-10 f-wrap">
+    <div class="d-flex gap-10  f-wrap">
+     <?php if (in_array('10', array_column($employee_permissions, 'permission_id'))) { ?>
+     <a href="jobs.php" class="btn-shape bg-main c-white fs-20">View Jobs</a>
+     <?php } ?>
+     <?php if (in_array('10', array_column($employee_permissions, 'permission_id'))) { ?>
+     <a href="permissions.php" class="btn-shape bg-main c-white fs-20">View Permissions</a>
+     <?php } ?>
+    </div>
     <?php if (in_array('10', array_column($employee_permissions, 'permission_id'))) { ?>
-    <button class="btn-shape bg-main c-white fs-20 mr-20 ml-20 open-modal" data-modal="addMemberModal">Add Member <i
+    <button class="btn-shape bg-main c-white fs-20 open-modal" data-modal="addMemberModal">Add Employee <i
       class="fa fa-plus"></i>
     </button>
     <?php } ?>

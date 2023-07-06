@@ -9,6 +9,64 @@ sidebarHideBtn.addEventListener("click", () => {
  sidebar.classList.remove("show");
 });
 
+//toggle theme
+const themeSwitch = document.getElementById("themeSwitch");
+function toggleTheme() {
+ var theme = localStorage.getItem("theme");
+ if (theme == "dark") {
+  document.documentElement.setAttribute("data-theme", "dark");
+  themeSwitch.setAttribute("checked", "checked");
+ } else {
+  document.documentElement.removeAttribute("data-theme");
+  themeSwitch.removeAttribute("checked");
+ }
+}
+toggleTheme();
+themeSwitch.addEventListener("change", function (event) {
+ if (event.target.checked) {
+  localStorage.setItem("theme", "dark");
+ } else {
+  localStorage.setItem("theme", "light");
+ }
+ toggleTheme();
+});
+
+// toggle ful screen
+var fullscreenButton = document.getElementById("fullScreen");
+var isFullscreen = false;
+fullscreenButton.addEventListener("click", function () {
+ if (isFullscreen) {
+  exitFullscreen();
+ } else {
+  enterFullscreen();
+ }
+});
+function enterFullscreen() {
+ var elem = document.documentElement;
+ if (elem.requestFullscreen) {
+  elem.requestFullscreen();
+ } else if (elem.mozRequestFullScreen) {
+  elem.mozRequestFullScreen();
+ } else if (elem.webkitRequestFullscreen) {
+  elem.webkitRequestFullscreen();
+ } else if (elem.msRequestFullscreen) {
+  elem.msRequestFullscreen();
+ }
+ isFullscreen = true;
+}
+function exitFullscreen() {
+ if (document.exitFullscreen) {
+  document.exitFullscreen();
+ } else if (document.mozCancelFullScreen) {
+  document.mozCancelFullScreen();
+ } else if (document.webkitExitFullscreen) {
+  document.webkitExitFullscreen();
+ } else if (document.msExitFullscreen) {
+  document.msExitFullscreen();
+ }
+ isFullscreen = false;
+}
+
 //filter book categories
 const categoryBoxs = document.querySelectorAll(".category-box");
 const categoryDetails = document.querySelector(".category-details");
@@ -82,9 +140,9 @@ if (showHideCategory && categoryContent) {
    showHideCategory.classList.add("fa-angle-up");
   }
   if (window.matchMedia("(min-width: 786px)").matches) {
-    categoryContent.classList.toggle("hide");
+   categoryContent.classList.toggle("hide");
   } else {
-    categoryContent.classList.toggle("show");
+   categoryContent.classList.toggle("show");
   }
  });
 }

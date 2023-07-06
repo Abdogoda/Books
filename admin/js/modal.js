@@ -60,18 +60,14 @@ modalsBtn.forEach((modalBtn) => {
    modal.querySelector("#category_name").innerHTML =
     modalBtn.getAttribute("data-title");
   }
-  //   //Edit User Modal
-  //   if(modal.id == "editUserModal" && modalBtn.dataset.modal == "editUserModal"){
-  // 	  modal.querySelector("#id").value = modalBtn.getAttribute("data-id");
-  // 	  modal.querySelector("#name").value = modalBtn.getAttribute("data-name");
-  // 	  modal.querySelector("#phone").value = modalBtn.getAttribute("data-phone");
-  // 	  modal.querySelector("#email").value = modalBtn.getAttribute("data-email");
-  // 	  modal.querySelector("#img_src").src = "uploaded_img/users/"+modalBtn.getAttribute("data-image");
-  //   }
-  //   //Edit Permission Modal
-  //   if(modal.id == "editPermissionModal" && modalBtn.dataset.modal == "editPermissionModal"){
-  // 	  modal.querySelector("#id").value = modalBtn.getAttribute("data-id");
-  // 	  modal.querySelector("#name").value = modalBtn.getAttribute("data-name");
-  //   }
+  //Edit Permission Modal
+  if (
+   modal.id == "editPermissionModal" &&
+   modalBtn.dataset.modal == "editPermissionModal"
+  ) {
+   modal.querySelector("#edit_name").value =
+    modalBtn.getAttribute("data-title");
+   modal.querySelector("#edit_id").value = modalBtn.getAttribute("data-id");
+  }
  });
 });

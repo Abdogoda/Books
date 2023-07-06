@@ -6,13 +6,17 @@ if(isset($_COOKIE['admin_id'])){
 }else{
   header('location: ../login.php');
 }
+
 // admin information and permissions
 $select_admin = $conn->prepare("SELECT * FROM users u JOIN employees e ON u.id = e.employee_id WHERE u.id = ?");
 $select_admin->execute([$admin_id]);
 $fetch_admin = $select_admin->fetch(PDO::FETCH_OBJ);
-$select_permissions = $conn->prepare("SELECT * FROM job_permisions jp JOIN permissions p ON jp.permission_id = p.id JOIN jobs j ON jp.job_id = j.id WHERE jp.job_id = ?");
-$select_permissions->execute([$fetch_admin->job_id]);
-$employee_permissions = $select_permissions->fetchAll();
+$select_employee_permissions = $conn->prepare("SELECT * FROM job_permisions WHERE job_id = ?");
+$select_employee_permissions->execute([$fetch_admin->job_id]);
+$employee_permissions = $select_employee_permissions->fetchAll(PDO::FETCH_OBJ);
+if (!in_array('4', array_column($employee_permissions, 'permission_id'))) header("location: index.php");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

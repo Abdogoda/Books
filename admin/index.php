@@ -7,6 +7,16 @@ if(isset($_COOKIE['admin_id'])){
   header('location: ../login.php');
 }
 
+
+// admin information and permissions
+$select_admin = $conn->prepare("SELECT * FROM users u JOIN employees e ON u.id = e.employee_id WHERE u.id = ?");
+$select_admin->execute([$admin_id]);
+$fetch_admin = $select_admin->fetch(PDO::FETCH_OBJ);
+$select_employee_permissions = $conn->prepare("SELECT * FROM job_permisions WHERE job_id = ?");
+$select_employee_permissions->execute([$fetch_admin->job_id]);
+$employee_permissions = $select_employee_permissions->fetchAll(PDO::FETCH_OBJ);
+if (!in_array('1', array_column($employee_permissions, 'permission_id'))) header("location: index.php");
+
 // Save Idea
 if(isset($_POST['save_idea'])){
   $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
@@ -105,6 +115,7 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
    <!-- End Welcome Widget -->
    <!-- Start Widgets Widget -->
    <div class="widgets d-grid gap-20 rad-10 m-20 mb-20">
+    <?php if (in_array('3', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="d-flex gap-10 rad-15 p-20 bg-white green txt-center c-black">
      <div class="icon">
       <i class="fa-solid fa-users-gear"></i>
@@ -114,6 +125,8 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <p class="c-grey m-0 mt-5">Employees</p>
      </div>
     </div>
+    <?php  }?>
+    <?php if (in_array('4', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="d-flex gap-10 rad-15 p-20 bg-white blue txt-center c-black">
      <div class="icon">
       <i class="fa-solid fa-users"></i>
@@ -123,6 +136,8 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <p class="c-grey m-0 mt-5">Visitors</p>
      </div>
     </div>
+    <?php  }?>
+    <?php if (in_array('2', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="d-flex gap-10 rad-15 p-20 bg-white orange txt-center c-black">
      <div class="icon">
       <i class="fa-solid fa-diagram-project"></i>
@@ -132,6 +147,8 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <p class="c-grey m-0 mt-5">Orders</p>
      </div>
     </div>
+    <?php  }?>
+    <?php if (in_array('26', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="d-flex gap-10 rad-15 p-20 bg-white red txt-center c-black">
      <div class="icon">
       <i class="fa-solid fa-dollar-sign"></i>
@@ -141,9 +158,11 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <p class="c-grey m-0 mt-5">Total Sales</p>
      </div>
     </div>
+    <?php  }?>
    </div>
    <!-- End Widgets Widget -->
    <div class="wrapper d-grid gap-20">
+    <?php if (in_array('26', array_column($employee_permissions, 'permission_id'))) { ?>
     <!-- Start Top Sold Books Widget -->
     <div class="sold-items p-20 bg-white rad-10 ChartBox1">
      <div class="between-flex align-center mb-20">
@@ -156,7 +175,9 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
      </div>
     </div>
     <!-- End Top Sold Books Widget -->
+    <?php }?>
     <!-- Start Orders status Widget -->
+    <?php if (in_array('2', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="order-status p-20 bg-white rad-10 ChartBox2">
      <div class="between-flex align-center mb-20">
       <h2 class="m-0">Orders Status</h2>
@@ -167,8 +188,10 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <canvas id="chart2"></canvas>
      </div>
     </div>
+    <?php }?>
     <!-- End Orders status Widget -->
     <!-- Start Top Search Books Widget -->
+    <?php if (in_array('5', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="search-items p-20 bg-white rad-10">
      <h2 class="mt-0 mb-20">Top Search Books</h2>
      <?php 
@@ -181,8 +204,10 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
      </div>
      <?php  } ?>
     </div>
+    <?php }?>
     <!-- End Top Search Books Widget -->
     <!-- Start Sales Indicator Widget -->
+    <?php if (in_array('26', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="sales-indicator p-20 bg-white rad-10 ChartBox3">
      <div class="between-flex align-center mb-20">
       <h2 class="m-0">Sales Indicator</h2>
@@ -193,8 +218,10 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <canvas id="chart3"></canvas>
      </div>
     </div>
+    <?php }?>
     <!-- End Sales Indicator Widget -->
     <!-- Start Latest Uploads Widget -->
+    <?php if (in_array('5', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="latest-uploads p-20 bg-white rad-10">
      <h2 class="mt-0 mb-20">Latest Uploads</h2>
      <ul class="m-0">
@@ -218,8 +245,10 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
      </ul>
      <img class="launch-icon hide-mobile" src="imgs/project.png" alt="upload-image" />
     </div>
+    <?php }?>
     <!-- End Latest Uploads Widget -->
     <!-- Start Latest Post Widget -->
+    <?php if (in_array('6', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="latest-post p-20 bg-white rad-10 p-relative">
      <h2 class="mt-0 mb-25">Latest Message</h2>
      <?php 
@@ -251,8 +280,10 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
      </div>
      <?php }else{ echo "<p class='empty'>There Is No Message Found For You!</p>"; }?>
     </div>
+    <?php }?>
     <!-- End Latest Post Widget -->
     <!-- Start Quick Draft Widget -->
+    <?php if (in_array('7', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="quick-draft p-20 bg-white rad-10">
      <h2 class="mt-0 mb-10">Quick Draft</h2>
      <p class="mt-0 mb-20 c-grey fs-15">Write A Draft For Your Ideas</p>
@@ -265,8 +296,10 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
        value="Save" />
      </form>
     </div>
+    <?php }?>
     <!-- End Quick Draft Widget -->
     <!-- Start Reminders Widget -->
+    <?php if (in_array('7', array_column($employee_permissions, 'permission_id'))) { ?>
     <div class="reminders p-20 bg-white rad-10 p-relative">
      <h2 class="mt-0 mb-25">Reminders</h2>
      <ul class="m-0">
@@ -286,6 +319,7 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
       <?php  } }else{ echo "<p class='empty'>There Is No Plans For You Yet</p>"; } ?>
      </ul>
     </div>
+    <?php }?>
     <!-- End Reminders Widget -->
     <!-- Start Social Media Stats Widget -->
     <div class="social-media p-20 bg-white rad-10 p-relative">
@@ -320,6 +354,7 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
     <!-- End Calendar Widget -->
    </div>
    <!-- Start Orders Table -->
+   <?php if (in_array('2', array_column($employee_permissions, 'permission_id'))) { ?>
    <div class="p-20 bg-white rad-10 m-20 mb-20">
     <h2 class="mt-0 mb-20">Latest Orders</h2>
     <div class="responsive-table">
@@ -361,6 +396,7 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
      </table>
     </div>
    </div>
+   <?php }?>
    <!-- End Orders Table -->
   </div>
  </div>
@@ -371,69 +407,75 @@ while($row = $select_order_status->fetch(PDO::FETCH_OBJ)){ $order_status_status 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
  <script>
  const ctx1 = document.getElementById('chart1');
- new Chart(ctx1, {
-  type: 'bar',
-  data: {
-   labels: [<?= substr($sold_books_name, 0, -1) ?>],
-   datasets: [{
-    label: '# of Book',
-    data: [<?= substr($sold_books_qty, 0, -1) ?>],
-    backgroundColor: '#55c28269',
-    borderWidth: 1
-   }]
-  },
-  options: {
-   scales: {
-    y: {
-     beginAtZero: true
+ if (ctx1) {
+  new Chart(ctx1, {
+   type: 'bar',
+   data: {
+    labels: [<?= substr($sold_books_name, 0, -1) ?>],
+    datasets: [{
+     label: '# of Book',
+     data: [<?= substr($sold_books_qty, 0, -1) ?>],
+     backgroundColor: '#55c28269',
+     borderWidth: 1
+    }]
+   },
+   options: {
+    scales: {
+     y: {
+      beginAtZero: true
+     }
     }
    }
-  }
- });
+  });
+ }
  const ctx2 = document.getElementById('chart2');
- new Chart(ctx2, {
-  type: 'polarArea',
-  data: {
-   labels: [<?= substr($order_status_status, 0, -1) ?>],
-   datasets: [{
-    label: '# of Book',
-    data: [<?= substr($order_status_count, 0, -1) ?>],
-    backgroundColor: [
-     '#55c28269',
-     '#f59f0b83',
-     '#e24c4c6b'
-    ],
-    borderWidth: 1
-   }]
-  },
-  options: {
-   scales: {
-    y: {
-     beginAtZero: true
+ if (ctx2) {
+  new Chart(ctx2, {
+   type: 'polarArea',
+   data: {
+    labels: [<?= substr($order_status_status, 0, -1) ?>],
+    datasets: [{
+     label: '# of Book',
+     data: [<?= substr($order_status_count, 0, -1) ?>],
+     backgroundColor: [
+      '#55c28269',
+      '#f59f0b83',
+      '#e24c4c6b'
+     ],
+     borderWidth: 1
+    }]
+   },
+   options: {
+    scales: {
+     y: {
+      beginAtZero: true
+     }
     }
    }
-  }
- });
+  });
+ }
  const ctx3 = document.getElementById('chart3');
- new Chart(ctx3, {
-  type: 'line',
-  data: {
-   labels: [<?= substr($sales_indicator_month, 0, -1) ?>],
-   datasets: [{
-    label: '# of EGP',
-    data: [<?= substr($sales_indicator_total, 0, -1) ?>],
-    backgroundColor: '#3499d84b',
-    borderWidth: 1
-   }]
-  },
-  options: {
-   scales: {
-    y: {
-     beginAtZero: true
+ if (ctx3) {
+  new Chart(ctx3, {
+   type: 'line',
+   data: {
+    labels: [<?= substr($sales_indicator_month, 0, -1) ?>],
+    datasets: [{
+     label: '# of EGP',
+     data: [<?= substr($sales_indicator_total, 0, -1) ?>],
+     backgroundColor: '#3499d84b',
+     borderWidth: 1
+    }]
+   },
+   options: {
+    scales: {
+     y: {
+      beginAtZero: true
+     }
     }
    }
-  }
- });
+  });
+ }
  </script>
 
  <!-- download image -->

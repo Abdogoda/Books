@@ -15,14 +15,23 @@ $no_of_books = $admin_books->rowCount();
 ?>
 <div class="head bg-white p-15 between-flex">
  <div class="d-flex">
-  <button class="sidebarShowBtn  fs-20 d-none block-mobile"><i class="fa fa-bars"></i></button>
+  <button class="sidebarShowBtn c-black fs-20 d-none block-mobile"><i class="fa fa-bars"></i></button>
   <form action="./books.php" method="post" class="search p-relative">
    <input class="p-10" type="search" name="search_box" placeholder="Search A Book" />
    <button type="submit" class="icon" name="search_btn"><i class="fa fa-search"></i></button>
   </form>
  </div>
  <div class="icons d-flex align-center">
-  <a href="notifications.php" class="notification p-relative">
+  <div class='toggler-switch'>
+   <label for="themeSwitch">
+    <input type='checkbox' id="themeSwitch">
+    <span class='slider'></span>
+   </label>
+  </div>
+  <button class="fullScreen c-black p-relative" id="fullScreen">
+   <i class="fa-solid fa-expand fa-lg"></i>
+  </button>
+  <a href="notifications.php" class="notification c-black p-relative">
    <i class="fa-regular fa-bell fa-lg"></i>
   </a>
   <a href="profile.php?id=<?=$admin_id?>">

@@ -6,6 +6,18 @@ if(isset($_COOKIE['admin_id'])){
 }else{
   header('location: ../login.php');
 }
+
+// admin information and permissions
+$select_admin = $conn->prepare("SELECT * FROM users u JOIN employees e ON u.id = e.employee_id WHERE u.id = ?");
+$select_admin->execute([$admin_id]);
+$fetch_admin = $select_admin->fetch(PDO::FETCH_OBJ);
+$select_employee_permissions = $conn->prepare("SELECT * FROM job_permisions WHERE job_id = ?");
+$select_employee_permissions->execute([$fetch_admin->job_id]);
+$employee_permissions = $select_employee_permissions->fetchAll(PDO::FETCH_OBJ);
+if (!in_array('5', array_column($employee_permissions, 'permission_id'))) header("location: index.php");
+
+
+
 // Add Book Function
 if(isset($_POST['add_book'])){
   $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
@@ -171,8 +183,10 @@ if(isset($_POST['delete_category'])){
   <div class="content w-full">
    <div class="between-flex f-wrap">
     <h1 class="p-relative">Books </h1>
+    <?php if (in_array('13', array_column($employee_permissions, 'permission_id'))) { ?>
     <button class="btn-shape bg-main c-white fs-20 mr-20 ml-20 open-modal" data-modal="addBookModal">Add Book <i
       class="fa fa-plus"></i></button>
+    <?php }?>
    </div>
    <div class="files-page d-flex m-20 mb-20 gap-20">
     <!-- start category section -->
@@ -199,10 +213,12 @@ if(isset($_POST['delete_category'])){
       }
      ?>
      </div>
+     <?php if (in_array('16', array_column($employee_permissions, 'permission_id'))) { ?>
      <button class="upload bg-main c-white fs-13 rad-6 d-block w-fit open-modal" data-modal="addCategoryModal">
       <i class="fa-solid fa-plus mr-10"></i>
       Add Category
      </button>
+     <?php }?>
     </div>
     <!-- end category section -->
     <!-- start books section -->
@@ -216,14 +232,18 @@ if(isset($_POST['delete_category'])){
       <p class="c-grey"><b>Title: </b><span class="c-main category-title">Sports</span></p>
       <p class="c-grey"><b>Books: </b><span class="c-main"><span class="category-books">50</span> Book</span></p>
       <div class="d-flex gap-10">
+       <?php if (in_array('17', array_column($employee_permissions, 'permission_id'))) { ?>
        <button data-modal="editCategoryModal" data-id="" data-title=""
         class="btn-shape bg-main c-white fs-13 rad-6 d-block w-fit open-modal open-edit-category-modal">
         Edit Title <i class="fa fa-edit"></i>
        </button>
+       <?php }?>
+       <?php if (in_array('18', array_column($employee_permissions, 'permission_id'))) { ?>
        <button data-modal="confirmDeleteCategoryModal" data-id="" data-title=""
         class="btn-shape bg-red c-white fs-13 rad-6 d-block w-fit open-modal open-delete-category-modal">
         Delete Category <i class="fa fa-trash"></i>
        </button>
+       <?php }?>
       </div>
      </div>
      <!-- end category details -->
@@ -250,16 +270,20 @@ if(isset($_POST['delete_category'])){
         <span><?= $book->price ?> EGP</span>
        </div>
        <div class="info between-flex mt-10 pt-10 fs-13 c-grey">
+        <?php if (in_array('14', array_column($employee_permissions, 'permission_id'))) { ?>
         <button data-modal="editBookModal" data-id="<?=$book->id?>" data-name="<?=$book->name?>"
          data-category-id="<?=$book->category_id?>" data-category-title="<?=$book->title?>"
          data-price="<?=$book->price?>" data-image="<?=$book->image?>" data-description="<?=$book->description?>"
          class="btn-shape bg-main c-white fs-13 rad-6 d-block w-fit open-modal">
          Edit <i class="fa fa-edit"></i>
         </button>
+        <?php }?>
+        <?php if (in_array('15', array_column($employee_permissions, 'permission_id'))) { ?>
         <button data-modal="confirmDeleteBookModal" data-id="<?=$book->id?>" data-name="<?=$book->name?>"
          class="btn-shape bg-red c-white fs-13 rad-6 d-block w-fit open-modal">
          Delete <i class="fa fa-trash"></i>
         </button>
+        <?php }?>
        </div>
       </div>
       <?php }
@@ -279,6 +303,7 @@ if(isset($_POST['delete_category'])){
 
  <!-- ################### START MODAL ################### -->
  <!-- Add Book Modal -->
+ <?php if (in_array('13', array_column($employee_permissions, 'permission_id'))) { ?>
  <div id="addBookModal" class="modal">
   <div class="modal-content">
    <h2>Add New Book</h2>
@@ -320,7 +345,9 @@ if(isset($_POST['delete_category'])){
    </form>
   </div>
  </div>
+ <?php }?>
  <!-- Edit Book Modal -->
+ <?php if (in_array('14', array_column($employee_permissions, 'permission_id'))) { ?>
  <div id="editBookModal" class="modal">
   <div class="modal-content">
    <h2>Edit Book</h2>
@@ -364,7 +391,9 @@ if(isset($_POST['delete_category'])){
    </form>
   </div>
  </div>
+ <?php }?>
  <!-- Add Category Modal -->
+ <?php if (in_array('16', array_column($employee_permissions, 'permission_id'))) { ?>
  <div id="addCategoryModal" class="modal">
   <div class="modal-content">
    <h2>Add New Category</h2>
@@ -379,7 +408,9 @@ if(isset($_POST['delete_category'])){
    </form>
   </div>
  </div>
+ <?php }?>
  <!-- Confirm Delete Book Modal -->
+ <?php if (in_array('15', array_column($employee_permissions, 'permission_id'))) { ?>
  <div id="confirmDeleteBookModal" class="modal">
   <div class="modal-content">
    <h2>Delete <span id="book_name"></span></h2>
@@ -395,7 +426,9 @@ if(isset($_POST['delete_category'])){
    </form>
   </div>
  </div>
+ <?php }?>
  <!-- Edit Category Modal -->
+ <?php if (in_array('17', array_column($employee_permissions, 'permission_id'))) { ?>
  <div id="editCategoryModal" class="modal">
   <div class="modal-content">
    <h2>Edit Category Title</h2>
@@ -412,7 +445,9 @@ if(isset($_POST['delete_category'])){
    </form>
   </div>
  </div>
+ <?php }?>
  <!-- Confirm Delete Category Modal -->
+ <?php if (in_array('18', array_column($employee_permissions, 'permission_id'))) { ?>
  <div id="confirmDeleteCategoryModal" class="modal">
   <div class="modal-content">
    <h2>Delete <span id="category_name"></span></h2>
@@ -428,7 +463,8 @@ if(isset($_POST['delete_category'])){
    </form>
   </div>
  </div>
- <!-- ################### END MODAL###################  -->
+ <?php } ?>
+ <!-- ################### END MODAL ###################  -->
 
 
  <!-- START JAVASCRIPT -->

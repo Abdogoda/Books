@@ -12,6 +12,18 @@ $user_id = $_GET['id'];
 }else{
   header("Location: index.php");
 }
+
+
+// admin information and permissions
+$select_admin = $conn->prepare("SELECT * FROM users u JOIN employees e ON u.id = e.employee_id WHERE u.id = ?");
+$select_admin->execute([$admin_id]);
+$fetch_admin = $select_admin->fetch(PDO::FETCH_OBJ);
+$select_employee_permissions = $conn->prepare("SELECT * FROM job_permisions WHERE job_id = ?");
+$select_employee_permissions->execute([$fetch_admin->job_id]);
+$employee_permissions = $select_employee_permissions->fetchAll(PDO::FETCH_OBJ);
+if (!in_array('1', array_column($employee_permissions, 'permission_id'))) header("location: index.php");
+
+// select user inforamtion
 $select_user = $conn->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
 $select_user->execute([$user_id]);
 $fetch_user = "";

@@ -1,14 +1,3 @@
-:root {
- --main-color: #27ae60;
- --main-alt-color: #55c282;
- --orange-color: #f59e0b;
- --green-color: #22c55e;
- --red-color: #f44336;
- --red-alt-color: #e24d4c;
- --grey-color: #888;
- --blue: #3498d8;
- --dark: #342e37;
-}
 /* Start Box */
 .d-flex {
  display: flex;
@@ -160,10 +149,10 @@
 /* End Padding + Margin */
 /* Start Color */
 .c-black {
- color: black;
+ color: var(--dark);
 }
 .c-white {
- color: white;
+ color: var(--white-color);
 }
 .c-grey {
  color: var(--grey-color);
@@ -172,7 +161,7 @@
  color: var(--dark);
 }
 .c-eee {
- color: #eee;
+ color: var(--eee-color);
 }
 .c-red {
  color: var(--red-color);
@@ -205,10 +194,10 @@
  background-color: var(--orange-color);
 }
 .bg-white {
- background-color: white;
+ background-color: var(--white-color);
 }
 .bg-eee {
- background-color: #eee;
+ background-color: var(--eee-color);
 }
 /* End Color */
 /* Start Position */
@@ -276,10 +265,10 @@
  border: none;
 }
 .border-ccc {
- border: 1px solid #ccc;
+ border: 1px solid var(--ccc-color);
 }
 .border-eee {
- border: 1px solid #eee;
+ border: 1px solid var(--eee-color);
 }
 
 /* End Border */

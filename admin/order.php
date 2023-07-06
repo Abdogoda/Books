@@ -6,13 +6,16 @@ if(isset($_COOKIE['admin_id'])){
 }else{
   header('location: ../login.php');
 }
+
 // admin information and permissions
 $select_admin = $conn->prepare("SELECT * FROM users u JOIN employees e ON u.id = e.employee_id WHERE u.id = ?");
 $select_admin->execute([$admin_id]);
 $fetch_admin = $select_admin->fetch(PDO::FETCH_OBJ);
-$select_permissions = $conn->prepare("SELECT * FROM job_permisions jp JOIN permissions p ON jp.permission_id = p.id JOIN jobs j ON jp.job_id = j.id WHERE jp.job_id = ?");
-$select_permissions->execute([$fetch_admin->job_id]);
-$employee_permissions = $select_permissions->fetchAll();
+$select_employee_permissions = $conn->prepare("SELECT * FROM job_permisions WHERE job_id = ?");
+$select_employee_permissions->execute([$fetch_admin->job_id]);
+$employee_permissions = $select_employee_permissions->fetchAll(PDO::FETCH_OBJ);
+if (!in_array('22', array_column($employee_permissions, 'permission_id'))) header("location: index.php");
+
 // select order details
 $order_id = "";
 if(isset($_GET['id'])){
@@ -99,14 +102,20 @@ if(isset($_POST['cancel_order'])){
      <p> <b>Payment Method</b>: <?= $order->payment_method == 0 ? "Cash On Delivery" : "Credit Card" ?> </p>
      <form method="POST" class="btns">
       <?php if($last_status->status == "Pending"){ ?>
+      <?php if (in_array('23', array_column($employee_permissions, 'permission_id'))) { ?>
       <button type="submit" name="approve_order" class="btn-shape fs-16 bg-main c-white">Approve Order <i
         class="fa fa-check"></i></button>
+      <?php }?>
+      <?php if (in_array('24', array_column($employee_permissions, 'permission_id'))) { ?>
       <button type="submit" name="cancel_order" class="btn-shape fs-16 bg-red c-white">Cancel Order <i
         class="fa fa-trash"></i></button>
+      <?php }?>
       <?php } ?>
       <?php if($last_status->status == "Completed"){ ?>
+      <?php if (in_array('25', array_column($employee_permissions, 'permission_id'))) { ?>
       <a href="invoice.php?id=<?= $order->id ?>" class="btn-shape bg-main c-white">Print Invoice <i
         class="fa fa-print"></i></a>
+      <?php }?>
       <?php } ?>
      </form>
     </div>
